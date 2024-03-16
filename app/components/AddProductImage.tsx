@@ -23,27 +23,38 @@ const AddProductImage = ({ error, image, setImage, setImageFile }: Props) => {
   // Pick single image
   const pickImage = async () => {
     await mediaPermission();
-    let result = await ImagePicker.launchImageLibraryAsync({
+    const result = await ImagePicker.launchImageLibraryAsync({
       mediaTypes: ImagePicker.MediaTypeOptions.Images,
-      aspect: [1, 1],
       allowsEditing: true,
+      aspect: [4, 3],
+      quality: 1,
     });
 
-    const asset = result?.assets[0];
-    console.log(asset);
-    if (!result.canceled) {
-      setImage(asset as any);
-
-      // Fetch the file object using the URI
-      fetch(asset.uri)
-        .then((res) => res.blob())
-        .then(async (blob) => {
-          setImageFile(blob as any);
-        })
-        .catch((error) => {
-          console.error("Error fetching file:", error);
-        });
+    if (!result.cancelled) {
+      setSelectedImage(result.uri);
+      uploadImage(result.uri);
     }
+    // let result = await ImagePicker.launchImageLibraryAsync({
+    //   mediaTypes: ImagePicker.MediaTypeOptions.Images,
+    //   aspect: [1, 1],
+    //   allowsEditing: true,
+    // });
+
+    // const asset = result?.assets[0];
+
+    // if (!result.canceled) {
+    //   setImage(asset as any);
+
+    //   // Fetch the file object using the URI
+    //   fetch(asset.uri)
+    //     .then((res) => res.blob())
+    //     .then(async (blob) => {
+    //       setImageFile(blob as any);
+    //     })
+    //     .catch((error) => {
+    //       console.error("Error fetching file:", error);
+    //     });
+    // }
   };
 
   return (
