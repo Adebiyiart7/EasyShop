@@ -1,7 +1,7 @@
 {
   "expo": {
-    "name": "easy-shop",
-    "slug": "Easy Shop",
+    "name": "Easy Shop",
+    "slug": "easy-shop",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./app/assets/icon.png",

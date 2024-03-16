@@ -1,8 +1,10 @@
 import React from "react";
-import { Pressable, StyleProp, StyleSheet, ViewStyle } from "react-native";
+import { StyleProp, StyleSheet, ViewStyle } from "react-native";
 
 import AppText from "./AppText";
 import useTheme from "../hooks/useTheme";
+import Sizes from "../config/Sizes";
+import AppPressable from "./AppPressable";
 
 interface Props {
   title: string;
@@ -14,14 +16,14 @@ const AppButton = ({ title, onPress, style }: Props) => {
   const { colors } = useTheme();
 
   return (
-    <Pressable
+    <AppPressable
       onPress={onPress}
       style={[styles.button, { backgroundColor: colors.primary }, style]}
     >
       <AppText color={colors.white} style={styles.text}>
         {title}
       </AppText>
-    </Pressable>
+    </AppPressable>
   );
 };
 
@@ -29,8 +31,8 @@ export default AppButton;
 
 const styles = StyleSheet.create({
   button: {
-    borderRadius: 10,
-    height: 45,
+    borderRadius: Sizes.generalBorderRadius,
+    height: 55,
     justifyContent: "center",
     alignItems: "center",
     elevation: 5,

@@ -6,6 +6,7 @@ const Sizes = {
   md: 16,
   lg: 20,
   xl: 24,
+  generalBorderRadius: 10,
 };
 
 export default Sizes;
