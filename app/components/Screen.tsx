@@ -10,7 +10,7 @@ interface Props {
   style?: StyleProp<ViewStyle>;
 }
 
-const Screen = ({ children, style }: Props) => {
+const Screen = React.memo(({ children, style }: Props) => {
   const theme = useTheme();
   return (
     <SafeAreaView
@@ -24,7 +24,7 @@ const Screen = ({ children, style }: Props) => {
       {children}
     </SafeAreaView>
   );
-};
+});
 
 export default Screen;
 

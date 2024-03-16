@@ -5,8 +5,9 @@ import Sizes from "../config/Sizes";
 import useTheme from "../hooks/useTheme";
 import useZoomIn from "../hooks/useZoomIn";
 import { useNavigation } from "@react-navigation/native";
+import React from "react";
 
-const Fab = () => {
+const Fab = React.memo(() => {
   const { colors } = useTheme();
   const scale = useZoomIn();
   const navigation = useNavigation();
@@ -27,7 +28,7 @@ const Fab = () => {
       </AppPressable>
     </Animated.View>
   );
-};
+});
 
 export default Fab;
 

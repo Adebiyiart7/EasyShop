@@ -8,6 +8,8 @@ import AppFormField from "../components/AppFormField";
 import AppButton from "../components/AppButton";
 import AddProductImage from "../components/AddProductImage";
 import { API_URL } from "../config/env";
+import { useNavigation } from "@react-navigation/native";
+import Routes from "../config/Routes";
 
 interface OnChangeProps {
   value: string;
@@ -15,21 +17,21 @@ interface OnChangeProps {
 }
 
 const AddProductScreen = () => {
+  const navigation = useNavigation();
   const [image, setImage] = useState(null);
   const [nameError, setNameError] = useState("");
   const [priceError, setPriceError] = useState("");
   const [imageError, setImageError] = useState("");
-  const [imageFile, setImageFile] = useState<File>(null);
   const [productData, setProductData] = useState({
     name: "Cap",
     price: "40000",
   });
 
   useEffect(() => {
-    if (imageFile) {
+    if (image) {
       setImageError("");
     }
-  }, [imageFile]);
+  }, [image]);
 
   // Simple validate
   const validate = () => {
@@ -43,7 +45,7 @@ const AddProductScreen = () => {
     } else {
       setPriceError("");
     }
-    if (!imageFile) {
+    if (!image) {
       setImageError("Image is a required!");
     }
   };
@@ -66,7 +68,11 @@ const AddProductScreen = () => {
       formData.append("userId", "123");
       formData.append("name", productData.name);
       formData.append("price", productData.price);
-      formData.append("image", imageFile);
+      formData.append("image", {
+        uri: image,
+        type: "image/jpeg",
+        name: "image.jpg",
+      } as any);
 
       await axios
         .post(API_URL + "products/add", formData, {
@@ -74,7 +80,7 @@ const AddProductScreen = () => {
             "Content-Type": "multipart/form-data",
           },
         })
-        .then((res) => console.log(res))
+        .then((res) => navigation.navigate(Routes.home))
         .catch((error) => console.log(error.message));
     }
   };
@@ -82,12 +88,7 @@ const AddProductScreen = () => {
   return (
     <Screen style={{ paddingTop: 0 }}>
       <ScrollView style={styles.container} showsVerticalScrollIndicator={false}>
-        <AddProductImage
-          image={image}
-          error={imageError}
-          setImage={setImage}
-          setImageFile={setImageFile}
-        />
+        <AddProductImage image={image} error={imageError} setImage={setImage} />
         <View style={styles.wrapper}>
           <AppFormField
             error={nameError}

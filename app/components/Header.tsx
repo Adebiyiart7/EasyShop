@@ -9,14 +9,14 @@ interface Props {
   style?: StyleProp<ViewStyle>;
 }
 
-const Header = ({ Left, Right, style }: Props) => {
+const Header = React.memo(({ Left, Right, style }: Props) => {
   return (
     <View style={[styles.header, style]}>
       <View style={styles.left}>{Left}</View>
       <View style={styles.right}>{Right}</View>
     </View>
   );
-};
+});
 
 export default Header;
 

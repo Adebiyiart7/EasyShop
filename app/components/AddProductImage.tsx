@@ -14,10 +14,9 @@ interface Props {
   error?: string;
   image: any;
   setImage: (value: any) => void;
-  setImageFile: (value: File) => void;
 }
 
-const AddProductImage = ({ error, image, setImage, setImageFile }: Props) => {
+const AddProductImage = ({ error, image, setImage }: Props) => {
   const { colors } = useTheme();
 
   // Pick single image
@@ -26,35 +25,13 @@ const AddProductImage = ({ error, image, setImage, setImageFile }: Props) => {
     const result = await ImagePicker.launchImageLibraryAsync({
       mediaTypes: ImagePicker.MediaTypeOptions.Images,
       allowsEditing: true,
-      aspect: [4, 3],
+      aspect: [1, 1],
       quality: 1,
     });
 
-    if (!result.cancelled) {
-      setSelectedImage(result.uri);
-      uploadImage(result.uri);
+    if (!result.canceled) {
+      setImage(result.assets[0].uri);
     }
-    // let result = await ImagePicker.launchImageLibraryAsync({
-    //   mediaTypes: ImagePicker.MediaTypeOptions.Images,
-    //   aspect: [1, 1],
-    //   allowsEditing: true,
-    // });
-
-    // const asset = result?.assets[0];
-
-    // if (!result.canceled) {
-    //   setImage(asset as any);
-
-    //   // Fetch the file object using the URI
-    //   fetch(asset.uri)
-    //     .then((res) => res.blob())
-    //     .then(async (blob) => {
-    //       setImageFile(blob as any);
-    //     })
-    //     .catch((error) => {
-    //       console.error("Error fetching file:", error);
-    //     });
-    // }
   };
 
   return (
@@ -69,7 +46,7 @@ const AddProductImage = ({ error, image, setImage, setImageFile }: Props) => {
         ]}
         onPress={pickImage}
       >
-        <Image source={{ uri: image?.uri }} style={styles.image} />
+        <Image source={{ uri: image }} style={styles.image} />
         {image !== null && (
           <AppText
             fontSize={Sizes.sm}

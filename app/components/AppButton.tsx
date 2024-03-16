@@ -12,7 +12,7 @@ interface Props {
   style?: StyleProp<ViewStyle>;
 }
 
-const AppButton = ({ title, onPress, style }: Props) => {
+const AppButton = React.memo(({ title, onPress, style }: Props) => {
   const { colors } = useTheme();
 
   return (
@@ -25,7 +25,7 @@ const AppButton = ({ title, onPress, style }: Props) => {
       </AppText>
     </AppPressable>
   );
-};
+});
 
 export default AppButton;
 

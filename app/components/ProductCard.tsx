@@ -13,7 +13,7 @@ interface Props {
   product: ProductProps;
 }
 
-const ProductCard = ({ product }: Props) => {
+const ProductCard = React.memo(({ product }: Props) => {
   const { colors } = useTheme();
 
   return (
@@ -33,7 +33,7 @@ const ProductCard = ({ product }: Props) => {
       </View>
     </View>
   );
-};
+});
 
 export default ProductCard;
 

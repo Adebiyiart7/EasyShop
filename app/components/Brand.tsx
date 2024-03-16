@@ -5,7 +5,7 @@ import { MaterialCommunityIcons } from "@expo/vector-icons";
 import Sizes from "../config/Sizes";
 import useTheme from "../hooks/useTheme";
 
-const Brand = () => {
+const Brand = React.memo(() => {
   const { colors } = useTheme();
 
   return (
@@ -14,7 +14,7 @@ const Brand = () => {
       <AppText style={styles.text}>Easy Shop</AppText>
     </View>
   );
-};
+});
 
 export default Brand;
 

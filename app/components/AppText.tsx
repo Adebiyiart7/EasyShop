@@ -12,28 +12,24 @@ interface Props {
   numberOfLines?: number;
 }
 
-const AppText = ({
-  children,
-  style,
-  fontSize,
-  color,
-  numberOfLines,
-}: Props) => {
-  const { colors } = useTheme();
+const AppText = React.memo(
+  ({ children, style, fontSize, color, numberOfLines }: Props) => {
+    const { colors } = useTheme();
 
-  return (
-    <Text
-      style={[
-        styles.text,
-        { color: color || colors.text, fontSize: fontSize || Sizes.base },
-        style,
-      ]}
-      numberOfLines={numberOfLines}
-    >
-      {children}
-    </Text>
-  );
-};
+    return (
+      <Text
+        style={[
+          styles.text,
+          { color: color || colors.text, fontSize: fontSize || Sizes.base },
+          style,
+        ]}
+        numberOfLines={numberOfLines}
+      >
+        {children}
+      </Text>
+    );
+  }
+);
 
 export default AppText;
 

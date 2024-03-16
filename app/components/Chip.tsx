@@ -11,7 +11,7 @@ interface Props {
   onPress: () => void;
 }
 
-const Chip = ({ active, text, onPress }: Props) => {
+const Chip = React.memo(({ active, text, onPress }: Props) => {
   const { colors } = useTheme();
 
   return (
@@ -30,7 +30,7 @@ const Chip = ({ active, text, onPress }: Props) => {
       </AppText>
     </Pressable>
   );
-};
+});
 
 export default Chip;
 
