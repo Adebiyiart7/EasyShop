@@ -12,13 +12,14 @@ import { deleteProduct, fetchProducts } from "../features/product/productSlice";
 import LoadingPage from "../components/LoadingPage";
 import BottomSheet from "../components/BottomSheet";
 import DeleteWarning from "../components/DeleteWarning";
-import UpdateProductContent from "../components/UpdateProductContent";
+import Routes from "../config/Routes";
+import { useNavigation } from "@react-navigation/native";
 
 const ManageProductScreen = () => {
   const dispatch = useDispatch();
+  const navigation = useNavigation();
   const [productId, setProductId] = useState("");
   const [deleteVisible, setDeleteVisible] = useState(false);
-  const [updateVisible, setUpdateVisible] = useState(false);
 
   const { isLoading, products } = useSelector(
     (state: { product: any }) => state.product
@@ -27,8 +28,6 @@ const ManageProductScreen = () => {
   useEffect(() => {
     dispatch(fetchProducts("123") as any);
   }, []);
-
-  const handleUpdate = () => {};
 
   const handleDelete = (id: string) => {
     dispatch(deleteProduct(id) as any).then((res: any) => {
@@ -54,11 +53,6 @@ const ManageProductScreen = () => {
         bottomSheetVisible={deleteVisible}
         setBottomSheetVisible={setDeleteVisible}
       />
-      <BottomSheet
-        bottomSheetContent={<UpdateProductContent />}
-        bottomSheetVisible={updateVisible}
-        setBottomSheetVisible={setUpdateVisible}
-      />
       <Header
         Left={
           <AppText style={{ fontWeight: "700", fontSize: 22 }}>
@@ -81,7 +75,9 @@ const ManageProductScreen = () => {
               setDeleteVisible(true);
               setProductId(item._id);
             }}
-            onPressUpdate={() => setUpdateVisible(true)}
+            onPressUpdate={() =>
+              navigation.navigate(Routes.addProduct, { productId: item._id })
+            }
           />
         )}
         ListFooterComponent={<View style={{ height: 60 }} />}

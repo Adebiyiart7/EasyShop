@@ -17,7 +17,7 @@ interface ProductState {
 
 export interface UpdateProductProps {
   id: string;
-  product: ProductProps;
+  product: FormData;
 }
 
 const initialState: ProductState = {

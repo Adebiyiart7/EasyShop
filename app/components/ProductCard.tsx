@@ -55,7 +55,9 @@ const ProductCard = React.memo(
               {product.name}
             </AppText>
             <AppText style={styles.price} numberOfLines={1}>
-              {product.price.toLocaleString()}
+              {typeof product.price === "number"
+                ? product.price.toLocaleString()
+                : product.price}
             </AppText>
           </View>
           {showManageButtons && (

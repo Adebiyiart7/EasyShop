@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useLayoutEffect, useState } from "react";
 import { ActivityIndicator, ScrollView, StyleSheet, View } from "react-native";
 
 import Screen from "../components/Screen";
@@ -6,32 +6,41 @@ import Sizes from "../config/Sizes";
 import AppFormField from "../components/AppFormField";
 import AppButton from "../components/AppButton";
 import AddProductImage from "../components/AddProductImage";
-import { useNavigation } from "@react-navigation/native";
+import { useNavigation, useRoute } from "@react-navigation/native";
 import Routes from "../config/Routes";
 import { useDispatch, useSelector } from "react-redux";
-import { addProduct, reset } from "../features/product/productSlice";
+import {
+  addProduct,
+  fetchProducts,
+  reset,
+  updateProduct,
+} from "../features/product/productSlice";
 import usePushNotifications from "../hooks/usePushNotifications";
 import useTheme from "../hooks/useTheme";
+import { ProductProps } from "./HomeScreen";
+import { API_URL } from "../config/env";
 
 interface OnChangeProps {
   value: string;
   name: string;
 }
 
-const AddProductScreen = () => {
+const AddProductScreen = ({ route }) => {
   const { colors } = useTheme();
+  // const route = useRoute();
   const dispatch = useDispatch();
   const navigation = useNavigation();
   const [isLoading, setIsLoading] = useState(false);
   const [image, setImage] = useState(null);
   const [error, setError] = useState(true);
+  const productId = route.params.productId || null;
   const [nameError, setNameError] = useState("");
   const [priceError, setPriceError] = useState("");
   const [imageError, setImageError] = useState("");
   const { products } = useSelector((state: { product: any }) => state.product);
   const [productData, setProductData] = useState({
-    name: "Cap",
-    price: "8000",
+    name: "",
+    price: "",
   });
 
   const { scheduleNotification: hasFiveProducts } = usePushNotifications({
@@ -43,6 +52,18 @@ const AddProductScreen = () => {
     title: "Limit Warning!",
     body: "The maximum number of products you can add is 5!",
   });
+
+  useLayoutEffect(() => {
+    const product: ProductProps = products.find(
+      (p: ProductProps) => p._id === productId
+    );
+
+    if (productId) {
+      navigation.setOptions({ title: "Update Product" });
+      setProductData({ name: product.name, price: product.price.toString() });
+      setImage(API_URL + product.image);
+    }
+  }, []);
 
   useEffect(() => {
     if (!image || !productData.name || !productData.price) {
@@ -111,22 +132,31 @@ const AddProductScreen = () => {
       } as any);
 
       // Add product and navigate back home
-      dispatch(addProduct(formData) as any).then((res: any) => {
-        if (products.length >= 4) {
-          isTheFifthProduct();
-        }
-        setTimeout(() => {
-          setIsLoading(false);
-          navigation.navigate(Routes.home);
-        }, 1500);
-      });
+      {
+        !productId
+          ? dispatch(addProduct(formData) as any).then((res: any) => {
+              if (products.length >= 4) {
+                isTheFifthProduct();
+              }
+              setTimeout(() => {
+                setIsLoading(false);
+                navigation.navigate(Routes.home);
+              }, 1500);
+            })
+          : dispatch(
+              updateProduct({ id: productId, product: formData }) as any
+            ).then((res: any) => {
+              setIsLoading(false);
+              navigation.navigate(Routes.manageProducts);
+              dispatch(fetchProducts("123") as any); // refetch data
+            });
+      }
       dispatch(reset());
     } else {
       setIsLoading(false);
     }
   };
 
-  console.log(error);
   return (
     <Screen style={{ paddingTop: 0 }}>
       <ScrollView style={styles.container} showsVerticalScrollIndicator={false}>
@@ -172,7 +202,15 @@ const AddProductScreen = () => {
         <AppButton
           disabled={error}
           title={
-            !isLoading ? "Add" : <ActivityIndicator color={colors.white} />
+            !isLoading ? (
+              productId ? (
+                "Update"
+              ) : (
+                "Add"
+              )
+            ) : (
+              <ActivityIndicator color={colors.white} />
+            )
           }
           onPress={() => (isLoading || error ? {} : handleUploadProduct())}
           style={{ marginTop: Sizes.wall }}
