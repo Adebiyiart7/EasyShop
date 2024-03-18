@@ -11,16 +11,12 @@
       "resizeMode": "contain",
       "backgroundColor": "#ffffff"
     },
-    "assetBundlePatterns": [
-      "**/*"
-    ],
+    "assetBundlePatterns": ["**/*"],
     "ios": {
       "supportsTablet": true
     },
     "android": {
-      "permissions": [
-        "INTERNET"
-      ],
+      "permissions": ["INTERNET"],
       "adaptiveIcon": {
         "foregroundImage": "./app/assets/adaptive-icon.png",
         "backgroundColor": "#ffffff"
@@ -40,7 +36,7 @@
     [
       "expo-notifications",
       {
-        "icon": "./local/assets/notification-icon.png",
+        "icon": "./app/assets/favicon.png",
         "color": "#ffffff"
       }
     ]

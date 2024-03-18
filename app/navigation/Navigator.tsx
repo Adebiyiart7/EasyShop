@@ -1,13 +1,12 @@
-import { NavigationContainer, ThemeProvider } from "@react-navigation/native";
+import { NavigationContainer } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
+import { Provider } from "react-redux";
 
-import HomeScreen from "../screens/HomeScreen";
+
 import AddProductScreen from "../screens/AddProductScreen";
 import Routes from "../config/Routes";
 import TabNavigator from "./TabNavigator";
-import { Provider } from "react-redux";
 import store from "../store/store";
-import useTheme from "../hooks/useTheme";
 
 const Stack = createStackNavigator();
 

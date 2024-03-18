@@ -1,19 +1,17 @@
-import { Animated, StyleSheet } from "react-native";
-import AppPressable from "./AppPressable";
+import React from "react";
+import { StyleSheet } from "react-native";
+import { useNavigation } from "@react-navigation/native";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
+
+import AppPressable from "./AppPressable";
 import Sizes from "../config/Sizes";
 import useTheme from "../hooks/useTheme";
-import useZoomIn from "../hooks/useZoomIn";
-import { useNavigation } from "@react-navigation/native";
-import React from "react";
 
 const Fab = React.memo(() => {
   const { colors } = useTheme();
-  const scale = useZoomIn();
   const navigation = useNavigation();
 
   return (
-    // <Animated.View style={{ transform: [{ scale }] }}>
     <AppPressable
       onPress={() => {
         navigation.navigate("Add Product");
@@ -26,7 +24,6 @@ const Fab = React.memo(() => {
         color={colors.white}
       />
     </AppPressable>
-    // {/* </Animated.View> */}
   );
 });
 

@@ -1,14 +1,13 @@
-import { StyleSheet, Text, View } from "react-native";
 import React from "react";
+import { StyleSheet } from "react-native";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 
 // LOCAL IMPORTS
-import HomeScreen from "../screens/HomeScreen";
 import Routes from "../config/Routes";
-import ManageProductScreen from "../screens/ManageProductsScreen";
 import tabBarIcon from "./tabBarIcon";
 import useTheme from "../hooks/useTheme";
-import Sizes from "../config/Sizes";
+import HomeScreen from "../screens/HomeScreen";
+import ManageProductScreen from "../screens/ManageProductsScreen";
 
 const Tab = createBottomTabNavigator();
 
@@ -45,5 +44,3 @@ const TabNavigator = () => {
 };
 
 export default TabNavigator;
-
-const styles = StyleSheet.create({});

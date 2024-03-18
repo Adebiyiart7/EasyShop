@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
-import { DarkTheme, LightTheme } from "../config/theme";
 import { useColorScheme } from "react-native";
+
+import { DarkTheme, LightTheme } from "../config/theme";
 
 const useTheme = () => {
   const [mode, setMode] = useState(DarkTheme);

@@ -1,5 +1,6 @@
-import { StyleSheet, Text, View } from "react-native";
+import { StyleSheet, View } from "react-native";
 import React from "react";
+
 import AppText from "./AppText";
 import Sizes from "../config/Sizes";
 import AppButton from "./AppButton";

@@ -1,4 +1,6 @@
 import React, { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { useNavigation } from "@react-navigation/native";
 import { FlatList, View, StyleSheet } from "react-native";
 
 import Screen from "../components/Screen";
@@ -6,16 +8,15 @@ import Header from "../components/Header";
 import Sizes from "../config/Sizes";
 import ProductCard from "../components/ProductCard";
 import AppText from "../components/AppText";
-import useTheme from "../hooks/useTheme";
-import { useDispatch, useSelector } from "react-redux";
 import { deleteProduct, fetchProducts } from "../features/product/productSlice";
 import LoadingPage from "../components/LoadingPage";
 import BottomSheet from "../components/BottomSheet";
 import DeleteWarning from "../components/DeleteWarning";
 import Routes from "../config/Routes";
-import { useNavigation } from "@react-navigation/native";
+import useUser from "../hooks/useUser";
 
 const ManageProductScreen = () => {
+  const { userId } = useUser();
   const dispatch = useDispatch();
   const navigation = useNavigation();
   const [productId, setProductId] = useState("");
@@ -26,7 +27,7 @@ const ManageProductScreen = () => {
   );
 
   useEffect(() => {
-    dispatch(fetchProducts("123") as any);
+    dispatch(fetchProducts(userId) as any);
   }, []);
 
   const handleDelete = (id: string) => {
@@ -34,7 +35,7 @@ const ManageProductScreen = () => {
       console.log(res.payload.body);
       if (res.payload.body) {
         setDeleteVisible(false);
-        dispatch(fetchProducts("123") as any); // refetch data
+        dispatch(fetchProducts(userId) as any); // refetch data
       }
     });
   };
@@ -63,7 +64,7 @@ const ManageProductScreen = () => {
       />
       <FlatList
         data={products}
-        keyExtractor={(item) => item._id}
+        keyExtractor={(item) => item.image}
         showsVerticalScrollIndicator={false}
         style={styles.content}
         renderItem={({ item }) => (

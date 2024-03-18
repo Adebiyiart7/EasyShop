@@ -1,4 +1,4 @@
-import { Dimensions, Image, StyleSheet, Text, View } from "react-native";
+import { Dimensions, Image, StyleSheet, View } from "react-native";
 import React from "react";
 import { ProductProps } from "../screens/HomeScreen";
 import AppText from "./AppText";

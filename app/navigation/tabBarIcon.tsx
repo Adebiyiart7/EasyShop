@@ -1,9 +1,9 @@
 import { Ionicons } from "@expo/vector-icons";
+import { RouteProp } from "@react-navigation/native";
 
 // LOCAL IMPORTS
 import Routes from "../config/Routes";
 import useTheme from "../hooks/useTheme";
-import { RouteProp } from "@react-navigation/native";
 
 interface Props {
   route: RouteProp<Record<string, object>, string>;

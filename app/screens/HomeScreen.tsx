@@ -9,12 +9,11 @@ import Sizes from "../config/Sizes";
 import ProductCard from "../components/ProductCard";
 import Fab from "../components/Fab";
 import AppText from "../components/AppText";
-import useTheme from "../hooks/useTheme";
-import useZoomIn from "../hooks/useZoomIn";
+import useTheme from "../hooks/useTheme"; 
 import { useDispatch, useSelector } from "react-redux";
 import { fetchProducts } from "../features/product/productSlice";
-import LoadingPage from "../components/LoadingPage";
-import HomeHeaderRight from "../components/HomeHeaderRight";
+import LoadingPage from "../components/LoadingPage"; 
+import useUser from "../hooks/useUser";
 
 interface CategoryProps {
   id: number;
@@ -38,6 +37,7 @@ const category: CategoryProps[] = [
 ];
 
 const HomeScreen = () => {
+  const { userId } = useUser();
   const { colors } = useTheme();
   const dispatch = useDispatch();
   const [activeCategory, setActiveCategory] = useState(category[0]);
@@ -46,7 +46,7 @@ const HomeScreen = () => {
   );
 
   useEffect(() => {
-    dispatch(fetchProducts("123") as any);
+    dispatch(fetchProducts(userId) as any);
   }, []);
 
   if (isLoading) return <LoadingPage />;

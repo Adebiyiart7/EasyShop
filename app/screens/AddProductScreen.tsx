@@ -1,3 +1,5 @@
+import { useDispatch, useSelector } from "react-redux";
+import { useNavigation } from "@react-navigation/native";
 import React, { useEffect, useLayoutEffect, useState } from "react";
 import { ActivityIndicator, ScrollView, StyleSheet, View } from "react-native";
 
@@ -6,9 +8,7 @@ import Sizes from "../config/Sizes";
 import AppFormField from "../components/AppFormField";
 import AppButton from "../components/AppButton";
 import AddProductImage from "../components/AddProductImage";
-import { useNavigation, useRoute } from "@react-navigation/native";
 import Routes from "../config/Routes";
-import { useDispatch, useSelector } from "react-redux";
 import {
   addProduct,
   fetchProducts,
@@ -19,6 +19,7 @@ import usePushNotifications from "../hooks/usePushNotifications";
 import useTheme from "../hooks/useTheme";
 import { ProductProps } from "./HomeScreen";
 import { API_URL } from "../config/env";
+import useUser from "../hooks/useUser";
 
 interface OnChangeProps {
   value: string;
@@ -26,14 +27,14 @@ interface OnChangeProps {
 }
 
 const AddProductScreen = ({ route }) => {
+  const { userId } = useUser();
   const { colors } = useTheme();
-  // const route = useRoute();
   const dispatch = useDispatch();
   const navigation = useNavigation();
   const [isLoading, setIsLoading] = useState(false);
   const [image, setImage] = useState(null);
   const [error, setError] = useState(true);
-  const productId = route.params.productId || null;
+  const productId = route.params?.productId || null;
   const [nameError, setNameError] = useState("");
   const [priceError, setPriceError] = useState("");
   const [imageError, setImageError] = useState("");
@@ -54,11 +55,11 @@ const AddProductScreen = ({ route }) => {
   });
 
   useLayoutEffect(() => {
-    const product: ProductProps = products.find(
-      (p: ProductProps) => p._id === productId
-    );
-
     if (productId) {
+      const product: ProductProps = products.find(
+        (p: ProductProps) => p._id === productId
+      );
+
       navigation.setOptions({ title: "Update Product" });
       setProductData({ name: product.name, price: product.price.toString() });
       setImage(API_URL + product.image);
@@ -109,20 +110,22 @@ const AddProductScreen = ({ route }) => {
     setIsLoading(true);
 
     // IF PRODUCTS ARE UP TO 5 SEND NOTIFICATION
-    if (products.length >= 5) {
-      hasFiveProducts();
-      setTimeout(() => {
-        setIsLoading(false);
-        navigation.navigate(Routes.home);
-      }, 1500);
-      return; // Stop UploadProduct function
+    if (!productId) {
+      if (products.length >= 5) {
+        hasFiveProducts();
+        setTimeout(() => {
+          setIsLoading(false);
+          navigation.navigate(Routes.home);
+        }, 1500);
+        return; // Stop UploadProduct function
+      }
     }
 
     // Upload image if no error is found
     if (!imageError && !nameError && !priceError) {
       const formData = new FormData();
 
-      formData.append("userId", "123");
+      formData.append("userId", userId);
       formData.append("name", productData.name);
       formData.append("price", productData.price);
       formData.append("image", {
@@ -130,7 +133,7 @@ const AddProductScreen = ({ route }) => {
         type: "image/jpeg",
         name: "image.jpg",
       } as any);
-
+      // console.log(productId);
       // Add product and navigate back home
       {
         !productId
@@ -146,9 +149,10 @@ const AddProductScreen = ({ route }) => {
           : dispatch(
               updateProduct({ id: productId, product: formData }) as any
             ).then((res: any) => {
+              // console.log(res.payload.body);
               setIsLoading(false);
               navigation.navigate(Routes.manageProducts);
-              dispatch(fetchProducts("123") as any); // refetch data
+              dispatch(fetchProducts(userId) as any); // refetch data
             });
       }
       dispatch(reset());

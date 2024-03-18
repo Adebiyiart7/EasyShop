@@ -30,6 +30,7 @@ export const fetchProductsService = async (userId: string) => {
 
 // UPDATE PRODUCT
 export const updateProductService = async (data: UpdateProductProps) => {
+  console.log(data.id);
   return await api.put<any>(
     "products/update?id=" + data.id,
     data.product,
