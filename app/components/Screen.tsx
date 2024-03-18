@@ -20,7 +20,7 @@ const Screen = React.memo(({ children, style }: Props) => {
         style,
       ]}
     >
-      <StatusBar style={"dark"} backgroundColor={theme.colors.background} />
+      <StatusBar style="dark" backgroundColor={theme.colors.background} />
       {children}
     </SafeAreaView>
   );

@@ -11,19 +11,38 @@
       "resizeMode": "contain",
       "backgroundColor": "#ffffff"
     },
-    "assetBundlePatterns": ["**/*"],
+    "assetBundlePatterns": [
+      "**/*"
+    ],
     "ios": {
       "supportsTablet": true
     },
     "android": {
-      "permissions": ["INTERNET"],
+      "permissions": [
+        "INTERNET"
+      ],
       "adaptiveIcon": {
         "foregroundImage": "./app/assets/adaptive-icon.png",
         "backgroundColor": "#ffffff"
-      }
+      },
+      "package": "com.adebiyiart.easyshop"
     },
     "web": {
       "favicon": "./app/assets/favicon.png"
+    },
+    "extra": {
+      "eas": {
+        "projectId": "7777e318-693b-469f-8fcb-f6ae081b0430"
+      }
     }
-  }
+  },
+  "plugins": [
+    [
+      "expo-notifications",
+      {
+        "icon": "./local/assets/notification-icon.png",
+        "color": "#ffffff"
+      }
+    ]
+  ]
 }

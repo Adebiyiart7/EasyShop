@@ -13,20 +13,20 @@ const Fab = React.memo(() => {
   const navigation = useNavigation();
 
   return (
-    <Animated.View style={{ transform: [{ scale }] }}>
-      <AppPressable
-        onPress={() => {
-          navigation.navigate("Add Product");
-        }}
-        style={[styles.fab, { backgroundColor: colors.primary }]}
-      >
-        <MaterialCommunityIcons
-          name="plus"
-          size={Sizes.xl}
-          color={colors.white}
-        />
-      </AppPressable>
-    </Animated.View>
+    // <Animated.View style={{ transform: [{ scale }] }}>
+    <AppPressable
+      onPress={() => {
+        navigation.navigate("Add Product");
+      }}
+      style={[styles.fab, { backgroundColor: colors.primary }]}
+    >
+      <MaterialCommunityIcons
+        name="plus"
+        size={Sizes.xl}
+        color={colors.white}
+      />
+    </AppPressable>
+    // {/* </Animated.View> */}
   );
 });
 

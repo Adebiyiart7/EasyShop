@@ -6,19 +6,22 @@ interface Props {
   style?: StyleProp<ViewStyle>;
   opacity?: number;
   scale?: number;
+  disabled?: boolean;
   onPress: () => void;
 }
 
 const AppPressable = React.memo(
-  ({ children, style, opacity, scale, onPress }: Props) => {
+  ({ children, style, opacity, scale, onPress, disabled = false }: Props) => {
     return (
       <Pressable onPress={onPress}>
         {({ pressed }) => (
           <View
             style={[
               {
-                opacity: pressed ? opacity || 0.9 : 1,
-                transform: [{ scale: pressed ? scale || 0.99 : 1 }],
+                opacity: !disabled ? (pressed ? opacity || 0.9 : 1) : 0.9,
+                transform: [
+                  { scale: !disabled ? (pressed ? scale || 0.99 : 1) : 0.99 },
+                ],
               },
               style,
             ]}

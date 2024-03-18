@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { FlatList, View, ActivityIndicator, StyleSheet } from "react-native";
+import { FlatList, View, StyleSheet } from "react-native";
 
 import Screen from "../components/Screen";
 import Header from "../components/Header";
@@ -8,12 +8,13 @@ import Chip from "../components/Chip";
 import Sizes from "../config/Sizes";
 import ProductCard from "../components/ProductCard";
 import Fab from "../components/Fab";
-import { useQuery } from "react-query";
-import axios from "axios";
-import { API_URL } from "../config/env";
 import AppText from "../components/AppText";
 import useTheme from "../hooks/useTheme";
-import { Ionicons, MaterialCommunityIcons } from "@expo/vector-icons";
+import useZoomIn from "../hooks/useZoomIn";
+import { useDispatch, useSelector } from "react-redux";
+import { fetchProducts } from "../features/product/productSlice";
+import LoadingPage from "../components/LoadingPage";
+import HomeHeaderRight from "../components/HomeHeaderRight";
 
 interface CategoryProps {
   id: number;
@@ -22,7 +23,7 @@ interface CategoryProps {
 
 export interface ProductProps {
   userId?: string;
-  _id: number;
+  _id: string;
   name: string;
   price: number;
   image: any;
@@ -36,69 +37,31 @@ const category: CategoryProps[] = [
   { id: 5, name: "Stationery" },
 ];
 
-// const products: ProductProps[] = [
-//   {
-//     _id: 1,
-//     name: "Snicker",
-//     price: 20000,
-//     image: require("../assets/dog.jpg"),
-//   },
-//   {
-//     _id: 2,
-//     name: "Leather Bag make the text longer",
-//     price: 20000,
-//     image: require("../assets/dog.jpg"),
-//   },
-//   {
-//     _id: 3,
-//     name: "Jacket",
-//     price: 20000,
-//     image: require("../assets/dog.jpg"),
-//   },
-//   { _id: 4, name: "Jean", price: 20000, image: require("../assets/dog.jpg") },
-//   { _id: 5, name: "Cap", price: 20000, image: require("../assets/dog.jpg") },
-// ];
-
 const HomeScreen = () => {
   const { colors } = useTheme();
+  const dispatch = useDispatch();
   const [activeCategory, setActiveCategory] = useState(category[0]);
-  const [loading, setLoading] = useState(false);
-  const [products, setProducts] = useState<ProductProps[]>([]);
+  const { isLoading, products } = useSelector(
+    (state: { product: any }) => state.product
+  );
 
   useEffect(() => {
-    const fetchProducts = async () => {
-      await axios
-        .get(API_URL + "products?userId=123")
-        .then((res) => setProducts(res.data.body))
-        .catch((error) => {
-          console.log(error.message);
-        });
-    };
-
-    fetchProducts();
+    dispatch(fetchProducts("123") as any);
   }, []);
 
-  useEffect(() => {
-    setTimeout(() => {
-      setLoading(false);
-    }, 1000);
-  }, [loading]);
-
-  if (loading) {
-    return (
-      <Screen style={{ justifyContent: "center", alignItems: "center" }}>
-        <ActivityIndicator size={"large"} />
-      </Screen>
-    );
-  }
+  if (isLoading) return <LoadingPage />;
 
   return (
     <Screen>
-      <Header Left={<Brand />} style={{ paddingBottom: Sizes.xs }} />
+      <Header
+        Left={<Brand />}
+        style={{ paddingBottom: Sizes.xs }}
+        // Right={<HomeHeaderRight />}
+      />
       <FlatList
         numColumns={2}
         data={products}
-        keyExtractor={(item) => item._id.toString()}
+        keyExtractor={(item) => item._id}
         showsVerticalScrollIndicator={false}
         columnWrapperStyle={{ gap: Sizes.wall }}
         style={styles.content}
