@@ -64,7 +64,7 @@ const ManageProductScreen = () => {
       />
       <FlatList
         data={products}
-        keyExtractor={(item) => item.image}
+        keyExtractor={(item) => item._id}
         showsVerticalScrollIndicator={false}
         style={styles.content}
         renderItem={({ item }) => (

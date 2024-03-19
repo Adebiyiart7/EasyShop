@@ -141,6 +141,7 @@ const AddProductScreen = ({ route }) => {
               if (products.length >= 4) {
                 isTheFifthProduct();
               }
+              dispatch(fetchProducts(userId) as any); // refetch data
               setTimeout(() => {
                 setIsLoading(false);
                 navigation.navigate(Routes.home);

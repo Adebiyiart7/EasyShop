@@ -35,6 +35,7 @@ export const addProduct = createAsyncThunk(
     try {
       const response = await addProductService(data);
       if (response.data) {
+        console.log(response.data);
         return response.data;
       }
     } catch (error: any) {
@@ -50,6 +51,7 @@ export const fetchProducts = createAsyncThunk(
     try {
       const response = await fetchProductsService(userId);
       if (response.data) {
+        console.log(response.data);
         return response.data;
       }
     } catch (error: any) {
@@ -65,6 +67,7 @@ export const updateProduct = createAsyncThunk(
     try {
       const response = await updateProductService(data);
       if (response.data) {
+        console.log(response.data);
         return response.data;
       }
     } catch (error: any) {
@@ -81,6 +84,7 @@ export const deleteProduct = createAsyncThunk(
     try {
       const response = await deleteProductService(id);
       if (response.data) {
+        console.log(response.data);
         return response.data;
       }
     } catch (error: any) {

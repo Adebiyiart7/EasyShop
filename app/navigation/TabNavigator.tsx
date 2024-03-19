@@ -24,11 +24,12 @@ const TabNavigator = () => {
           backgroundColor: colors.background,
           borderTopColor: colors.border,
         },
+
         activeTintColor: colors.primary,
         iconStyle: {
           marginTop: 8,
         },
-        style: { elevation: 0, height: 57 },
+        style: { elevation: 0, height: 57, borderTopColor: colors.border },
       }}
       screenOptions={({ route }) => ({
         tabBarIcon: ({ focused }) => tabBarIcon({ route, focused }),
